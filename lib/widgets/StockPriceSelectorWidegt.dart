@@ -111,7 +111,7 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
                   CustomTextField(
                     controller: qController,
                     quantity: quantity,
-                    isQuantity: isQuantitySelected,
+                    isQuantity: !isQuantitySelected,
                     isDisabled: true,
                     label: isQuantitySelected ? "Quantity" : "Amount",
                     width: MediaQuery.of(context).size.width,
