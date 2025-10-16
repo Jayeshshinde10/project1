@@ -32,8 +32,8 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
     super.initState();
     triggerPriceController = TextEditingController(text: "${widget.price}");
     limitPriceController = TextEditingController(text: "${widget.price}");
-    stopLossPercentController = TextEditingController(text: "${-5}%");
-    targetPercentController = TextEditingController(text: "${5}%");
+    stopLossPercentController = TextEditingController(text: "${-5}");
+    targetPercentController = TextEditingController(text: "${5}");
   }
 
   @override
@@ -72,7 +72,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
                 Container(
                   child: CustomTextField(
                     width: 150,
-
+                    showSuffixicon: false,
                     controller: triggerPriceController,
                     label: "Trigger Price",
                     editIcon: Icon(Icons.colorize_outlined, color: Colors.blue),

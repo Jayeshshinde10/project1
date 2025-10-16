@@ -14,7 +14,9 @@ class CustomTextField extends StatefulWidget {
     required this.onChange,
     this.isLimitSelected = true,
     this.toggleDisabled = false,
+    this.showSuffixicon = true,
     this.editIcon,
+    this.validator,
   });
   final double height;
   final double width;
@@ -28,6 +30,8 @@ class CustomTextField extends StatefulWidget {
   final bool isLimitSelected;
   final bool toggleDisabled;
   final Widget? editIcon;
+  final bool showSuffixicon;
+  final Function(String value)? validator;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -64,11 +68,28 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
           SizedBox(height: 10),
           Expanded(
-            child: TextField(
+            child: TextFormField(
+              validator: widget.validator == null
+                  ? (value) {
+                      if (value!.trim().isEmpty) {
+                        return "Value Connot be less than zero";
+                      }
+
+                      if ((double.tryParse(value.trim()!) ?? 0) <= 0) {
+                        return "Value Connot be less than zero";
+                      }
+                      return null;
+                    }
+                  : (value) {
+                      return widget.validator!(value!);
+                    },
+              autovalidateMode: AutovalidateMode.always,
+
               controller: widget.controller,
               onChanged: widget.onChange,
               keyboardType: TextInputType.number,
               readOnly: widget.isDisabled,
+
               onTapOutside: (event) {},
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10),
@@ -95,24 +116,31 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(color: Colors.red, width: 2),
                 ),
-                suffixIcon: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      left: BorderSide(color: Colors.grey.shade300, width: 2),
-                    ),
-                  ),
-                  child: IconButton(
-                    disabledColor: Colors.grey.shade400,
+                suffixIcon: widget.showSuffixicon
+                    ? Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        child: IconButton(
+                          disabledColor: Colors.grey.shade400,
 
-                    onPressed: widget.toggleDisabled ? null : widget.onToggle,
-                    icon: Icon(
-                      Icons.swap_horiz,
-                      color: widget.toggleDisabled
-                          ? Colors.grey.shade400
-                          : Colors.blue,
-                    ),
-                  ),
-                ),
+                          onPressed: widget.toggleDisabled
+                              ? null
+                              : widget.onToggle,
+                          icon: Icon(
+                            Icons.swap_horiz,
+                            color: widget.toggleDisabled
+                                ? Colors.grey.shade400
+                                : Colors.blue,
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
                 // Remove default border if you want only custom borders
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),

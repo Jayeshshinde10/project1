@@ -55,7 +55,12 @@ class _BuyScreenState extends State<BuyScreen> {
             margin: EdgeInsets.all(0),
             color: Colors.red,
             height: 100,
-            child: Row(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                
+              ],
+            ),
           ),
         ],
       ),

@@ -15,7 +15,7 @@ class _ValidityOptionsState extends State<ValidityOptions> {
   @override
   void initState() {
     super.initState();
-    disClosedQty = TextEditingController(text: "${widget.price}");
+    disClosedQty = TextEditingController(text: "0");
   }
 
   int selectedMinutes = 1;
@@ -161,7 +161,8 @@ class _ValidityOptionsState extends State<ValidityOptions> {
                   SizedBox(height: 10),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.4,
-                    child: TextField(
+                    child: TextFormField(
+                      readOnly: selected == 1,
                       controller: disClosedQty,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10),

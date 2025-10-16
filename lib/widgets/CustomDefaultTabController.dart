@@ -64,7 +64,7 @@ class CustomDefaultTabController extends StatelessWidget {
                     ],
             ),
 
-            Expanded(child: CustomStackWidget(price: price, )),
+            Expanded(child: CustomStackWidget(price: price)),
           ],
         ),
       ),
