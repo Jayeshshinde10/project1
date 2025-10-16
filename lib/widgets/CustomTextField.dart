@@ -69,7 +69,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
               onChanged: widget.onChange,
               keyboardType: TextInputType.number,
               enabled: widget.isDisabled,
-
               onTapOutside: (event) {},
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10),

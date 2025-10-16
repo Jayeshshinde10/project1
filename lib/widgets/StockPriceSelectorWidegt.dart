@@ -19,21 +19,6 @@ class StockPricChangerWidget extends StatefulWidget {
 class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
   bool isQuantitySelected = true;
 
-  // void onQantToMarketChange() {
-  //   // isQuantitySelected = !isQuantitySelected;
-  //   // setState(() {});
-  //   if (isQuantitySelected) {
-  //     int quntity = int.parse(qController.text);
-  //     String price = "${widget.price * quntity}";
-  //     qController.text = "${int.parse(price)}";
-  //   } else {
-  //     double price = double.parse(qController.text);
-  //     qController.text = "${price / widget.price}";
-  //   }
-  //   setState(() {
-  //     isQuantitySelected = !isQuantitySelected;
-  //   });
-  // }
   int quantity = 1;
 
   void onQantToMarketChange() {
