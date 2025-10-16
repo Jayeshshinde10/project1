@@ -73,7 +73,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
                   child: CustomTextField(
                     width: 150,
 
-                    controller: stopLossPercentController,
+                    controller: triggerPriceController,
                     label: "Trigger Price",
                     editIcon: Icon(Icons.colorize_outlined, color: Colors.blue),
 
@@ -85,7 +85,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
                 Container(
                   child: CustomTextField(
                     width: 150,
-                    controller: targetPercentController,
+                    controller: limitPriceController,
                     label: "Limit",
                     editIcon: Icon(Icons.colorize_outlined, color: Colors.blue),
                     onToggle: () {},
@@ -106,7 +106,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
             value: gtt,
           ),
 
-        if (gtt && !(widget.selectedMarket == "Intraday"))
+        if (gtt && widget.selectedMarket != "Intraday")
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -128,7 +128,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
                 Container(
                   child: CustomTextField(
                     width: 150,
-                    controller: triggerPriceController,
+                    controller: stopLossPercentController,
                     label: "Stoploss %",
 
                     onToggle: () {},
@@ -139,7 +139,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
                 Container(
                   child: CustomTextField(
                     width: 150,
-                    controller: limitPriceController,
+                    controller: targetPercentController,
                     label: "Target %",
 
                     onToggle: () {},
@@ -187,7 +187,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
           ],
         ),
         SizedBox(height: 30),
-        if (isAdvancedOptionVisible) ValidityOptions(),
+        if (isAdvancedOptionVisible) ValidityOptions(price: widget.price),
         SizedBox(height: 50),
       ],
     );

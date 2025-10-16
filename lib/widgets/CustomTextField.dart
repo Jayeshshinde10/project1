@@ -68,7 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               controller: widget.controller,
               onChanged: widget.onChange,
               keyboardType: TextInputType.number,
-              enabled: widget.isDisabled,
+              readOnly: widget.isDisabled,
               onTapOutside: (event) {},
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10),

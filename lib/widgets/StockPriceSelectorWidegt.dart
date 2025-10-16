@@ -49,13 +49,14 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
     limitMarketroller = TextEditingController(text: "${widget.price}");
   }
 
-  bool isLimitSelected = false;
+  bool isMarketSelected = true;
   void onLimitToMarketToggle() {
     limitMarketroller.text = "${widget.price}";
 
     setState(() {
-      isLimitSelected = !isLimitSelected;
+      isMarketSelected = !isMarketSelected;
     });
+    print(isMarketSelected);
   }
 
   @override
@@ -105,22 +106,26 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
                     controller: qController,
                     quantity: quantity,
                     isQuantity: !isQuantitySelected,
-
                     label: isQuantitySelected ? "Quantity" : "Amount",
                     width: MediaQuery.of(context).size.width,
                     onToggle: onQantToMarketChange,
                     toggleDisabled: widget.selectedMarket == "Intraday",
-                    onChange: (value) {},
+                    onChange: (value) {
+                      if (!isQuantitySelected)
+                        setState(() {
+                          double totalPrice = double.parse(qController.text);
+                          quantity = (totalPrice / widget.price).round();
+                        });
+                    },
                   ),
-
                   SizedBox(height: 10),
                   CustomTextField(
                     onChange: (value) {},
                     controller: limitMarketroller,
                     onToggle: onLimitToMarketToggle,
-                    isDisabled: !isLimitSelected,
-                    label: isLimitSelected ? "Limit" : "Market",
-                    isLimitSelected: isLimitSelected,
+                    isDisabled: isMarketSelected,
+                    label: isMarketSelected ? "Market" : "Limit",
+                    isLimitSelected: isMarketSelected,
                     width: MediaQuery.of(context).size.width,
                     toggleDisabled: false,
                   ),

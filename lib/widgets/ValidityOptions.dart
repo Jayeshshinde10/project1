@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ValidityOptions extends StatefulWidget {
-  const ValidityOptions({super.key});
+  final double price;
+  const ValidityOptions({super.key, required this.price});
 
   @override
   State<ValidityOptions> createState() => _ValidityOptionsState();
@@ -9,12 +10,12 @@ class ValidityOptions extends StatefulWidget {
 
 class _ValidityOptionsState extends State<ValidityOptions> {
   int selected = 0;
-  late TextEditingController controller;
+  late TextEditingController disClosedQty;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    controller = TextEditingController();
+    disClosedQty = TextEditingController(text: "${widget.price}");
   }
 
   int selectedMinutes = 1;
@@ -161,7 +162,7 @@ class _ValidityOptionsState extends State<ValidityOptions> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: TextField(
-                      controller: controller,
+                      controller: disClosedQty,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10),
                         // Enabled border (default state)
