@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zerodha_clone/widgets/CustomTextField.dart';
 import 'package:zerodha_clone/widgets/ValidityOptions.dart';
+import 'package:zerodha_clone/widgets/gttfields.dart';
 
 class AdvanncedOption extends StatefulWidget {
   const AdvanncedOption({
@@ -28,11 +29,10 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     triggerPriceController = TextEditingController(text: "${widget.price}");
     limitPriceController = TextEditingController(text: "${widget.price}");
-    stopLossPercentController = TextEditingController(text: "${-5}");
+    stopLossPercentController = TextEditingController(text: "${5}");
     targetPercentController = TextEditingController(text: "${5}");
   }
 
@@ -41,8 +41,8 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 270),
-        _SwitchTile(
+        SizedBox(height: MediaQuery.of(context).size.height * 0.33),
+        CustomSwitchTile(
           label: "StopLoss",
           onChange: (value) {
             isStoploss = value;
@@ -97,7 +97,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
           ),
         if (widget.selectedMarket != "Intraday") SizedBox(height: 20),
         if (widget.selectedMarket != "Intraday")
-          _SwitchTile(
+          CustomSwitchTile(
             label: "GTT",
             onChange: (value) {
               gtt = value;
@@ -126,7 +126,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
             child: Row(
               children: [
                 Container(
-                  child: CustomTextField(
+                  child: GttFields(
                     width: 150,
                     controller: stopLossPercentController,
                     label: "Stoploss %",
@@ -137,7 +137,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
                 ),
                 SizedBox(width: 10),
                 Container(
-                  child: CustomTextField(
+                  child: GttFields(
                     width: 150,
                     controller: targetPercentController,
                     label: "Target %",
@@ -152,7 +152,7 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
 
         SizedBox(height: 20),
 
-        _SwitchTile(
+        CustomSwitchTile(
           label: "Market Protection",
           onChange: (value) {
             marketProtection = value;
@@ -194,8 +194,8 @@ class _AdvanncedOptionState extends State<AdvanncedOption> {
   }
 }
 
-class _SwitchTile extends StatelessWidget {
-  const _SwitchTile({
+class CustomSwitchTile extends StatelessWidget {
+  const CustomSwitchTile({
     super.key,
     required this.label,
     required this.value,

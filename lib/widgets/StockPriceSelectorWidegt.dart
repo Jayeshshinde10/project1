@@ -24,12 +24,12 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
   void onQantToMarketChange() {
     setState(() {
       if (isQuantitySelected) {
-        // Convert Quantity to Market Price
-        int quantity = int.parse(qController.text);
+        //  Quantity to Market Price
+        quantity = int.parse(qController.text);
         double totalPrice = widget.price * quantity;
         qController.text = totalPrice.toStringAsFixed(2);
       } else {
-        // Convert Market Price to Quantity
+        //  Market Price to Quantity
         double totalPrice = double.parse(qController.text);
         quantity = (totalPrice / widget.price).round();
 
@@ -80,10 +80,10 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3), // shadow color
-            spreadRadius: 2, // how wide the shadow spreads
-            blurRadius: 8, // how soft the shadow looks
-            offset: Offset(0, 4), // position of shadow (x, y)
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 8,
+            offset: Offset(0, 4),
           ),
         ],
 
@@ -111,11 +111,18 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
                     onToggle: onQantToMarketChange,
                     toggleDisabled: widget.selectedMarket == "Intraday",
                     onChange: (value) {
-                      if (!isQuantitySelected)
-                        setState(() {
-                          double totalPrice = double.parse(qController.text);
-                          quantity = (totalPrice / widget.price).round();
-                        });
+                      if (value.trim().isEmpty) {
+                        return;
+                      }
+                      setState(() {
+                        double? totalPrice = double.tryParse(
+                          qController.text.trim(),
+                        );
+                        if (totalPrice == null) {
+                          return;
+                        }
+                        quantity = (totalPrice / widget.price).round();
+                      });
                     },
                   ),
                   SizedBox(height: 10),

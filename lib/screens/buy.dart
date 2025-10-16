@@ -16,6 +16,8 @@ class _BuyScreenState extends State<BuyScreen> {
   double nsePrice = 3007.20;
   double bsePrice = 3007.50;
   bool isFinished = false;
+  UniqueKey _swipeKey = UniqueKey();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   void onChange(value) {
     setState(() {
@@ -48,9 +50,12 @@ class _BuyScreenState extends State<BuyScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: CustomDefaultTabController(
-              isNse: isNse,
-              price: isNse ? nsePrice : bsePrice,
+            child: Form(
+              key: _key,
+              child: CustomDefaultTabController(
+                isNse: isNse,
+                price: isNse ? nsePrice : bsePrice,
+              ),
             ),
           ),
 
@@ -116,6 +121,7 @@ class _BuyScreenState extends State<BuyScreen> {
             height: 100,
             padding: EdgeInsets.all(15),
             child: SwipeableButtonView(
+              key: _swipeKey,
               buttonText: 'Swipe To Buy',
               buttonWidget: Center(
                 child: Icon(
@@ -127,11 +133,30 @@ class _BuyScreenState extends State<BuyScreen> {
               activeColor: Colors.blue,
               isFinished: isFinished,
               onWaitingProcess: () {
-                Future.delayed(Duration(seconds: 2), () {
-                  setState(() {
-                    isFinished = true;
+                if (_key.currentState != null &&
+                    _key.currentState!.validate()) {
+                  // Form is valid, proceed with the action
+                  Future.delayed(Duration(seconds: 2), () {
+                    setState(() {
+                      isFinished = true;
+                    });
                   });
-                });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Please fill all required fields correctly',
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+
+                  // Reset the swipe button
+                  setState(() {
+                    isFinished = false;
+                    _swipeKey = UniqueKey();
+                  });
+                }
               },
               onFinish: () async {
                 setState(() {

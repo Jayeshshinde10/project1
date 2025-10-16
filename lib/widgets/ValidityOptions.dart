@@ -119,6 +119,8 @@ class _ValidityOptionsState extends State<ValidityOptions> {
                   alignedDropdown: true, // Aligns dropdown menu with button
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton(
+                      dropdownColor: Colors.white,
+
                       isDense: true, // Reduces the default height
                       items: minuteOptions.map((e) {
                         return DropdownMenuItem<int>(

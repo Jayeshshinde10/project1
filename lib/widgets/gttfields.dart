@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
-  const CustomTextField({
+class GttFields extends StatefulWidget {
+  const GttFields({
     super.key,
     this.height = 100,
     this.quantity = 0,
@@ -34,10 +34,11 @@ class CustomTextField extends StatefulWidget {
   final Function(String value)? validator;
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  State<GttFields> createState() => _GttFieldsState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _GttFieldsState extends State<GttFields> {
+  bool isOn = false;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -71,21 +72,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
             child: TextFormField(
               validator: widget.validator == null
                   ? (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "This field is required";
+                      if (value!.trim().isEmpty) {
+                        return "Value Connot be less than zero";
                       }
 
-                      String trimmedValue = value.trim();
-
-                      double? parsedValue = double.tryParse(trimmedValue);
-                      if (parsedValue == null) {
-                        return "Please enter a valid number";
+                      if ((double.tryParse(value.trim()!) ?? 0) <= 0) {
+                        return "Value Connot be less than zero";
                       }
-
-                      if (parsedValue <= 0) {
-                        return "Value must be greater than zero";
-                      }
-
                       return null;
                     }
                   : (value) {
@@ -96,7 +89,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               controller: widget.controller,
               onChanged: widget.onChange,
               keyboardType: TextInputType.number,
-              readOnly: widget.isDisabled,
+              readOnly: !isOn,
 
               onTapOutside: (event) {},
               decoration: InputDecoration(
@@ -135,17 +128,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             ),
                           ),
                         ),
-                        child: IconButton(
-                          disabledColor: Colors.grey.shade400,
-
-                          onPressed: widget.toggleDisabled
-                              ? null
-                              : widget.onToggle,
-                          icon: Icon(
-                            Icons.swap_horiz,
-                            color: widget.toggleDisabled
-                                ? Colors.grey.shade400
-                                : Colors.blue,
+                        child: Transform.scale(
+                          scale: 0.7,
+                          child: Switch(
+                            value: isOn,
+                            onChanged: (value) {
+                              setState(() {
+                                isOn = !isOn;
+                              });
+                            },
+                            activeColor: Colors.white,
+                            activeTrackColor: Colors.blue,
+                            inactiveThumbColor: Colors.white,
+                            inactiveTrackColor: Colors.grey.shade300,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
                           ),
                         ),
                       )
