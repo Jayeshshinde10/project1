@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:swipeable_button_view/swipeable_button_view.dart';
+
 import 'package:zerodha_clone/widgets/CustomDefaultTabController.dart';
 import 'package:zerodha_clone/widgets/StockExchangeSelectorWidget.dart';
 
@@ -13,6 +15,7 @@ class _BuyScreenState extends State<BuyScreen> {
   bool isNse = true;
   double nsePrice = 3007.20;
   double bsePrice = 3007.50;
+  bool isFinished = false;
 
   void onChange(value) {
     setState(() {
@@ -51,15 +54,90 @@ class _BuyScreenState extends State<BuyScreen> {
             ),
           ),
 
-          Container(
-            margin: EdgeInsets.all(0),
-            color: Colors.red,
-            height: 100,
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Amount  ",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        TextSpan(
+                          text: "₹984.15",
+                          style: TextStyle(
+                            color: Colors.blue,
+
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " + ",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        TextSpan(
+                          text: "₹1.03",
+                          style: TextStyle(
+                            color: Colors.blue,
+
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "  Avail.  ",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        TextSpan(
+                          text: "₹0.00",
+                          style: TextStyle(color: Colors.grey[400]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.refresh, color: Colors.blue),
+                  onPressed: () {
+                    // Refresh action
+                  },
+                ),
               ],
+            ),
+          ),
+
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.all(0),
+            color: Colors.grey.shade100,
+            height: 100,
+            padding: EdgeInsets.all(15),
+            child: SwipeableButtonView(
+              buttonText: 'Swipe To Buy',
+              buttonWidget: Center(
+                child: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.grey,
+                ),
+              ),
+
+              activeColor: Colors.blue,
+              isFinished: isFinished,
+              onWaitingProcess: () {
+                Future.delayed(Duration(seconds: 2), () {
+                  setState(() {
+                    isFinished = true;
+                  });
+                });
+              },
+              onFinish: () async {
+                setState(() {
+                  isFinished = false;
+                });
+              },
             ),
           ),
         ],
