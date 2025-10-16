@@ -59,10 +59,18 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
   late TextEditingController limitMarketroller;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     qController = TextEditingController(text: "1");
-    limitMarketroller = TextEditingController();
+    limitMarketroller = TextEditingController(text: "${widget.price}");
+  }
+
+  bool isLimitSelected = false;
+  void onLimitToMarketToggle() {
+    limitMarketroller.text = "${widget.price}";
+
+    setState(() {
+      isLimitSelected = !isLimitSelected;
+    });
   }
 
   @override
@@ -112,10 +120,11 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
                     controller: qController,
                     quantity: quantity,
                     isQuantity: !isQuantitySelected,
-                    isDisabled: true,
+
                     label: isQuantitySelected ? "Quantity" : "Amount",
                     width: MediaQuery.of(context).size.width,
                     onToggle: onQantToMarketChange,
+                    toggleDisabled: widget.selectedMarket == "Intraday",
                     onChange: (value) {},
                   ),
 
@@ -123,16 +132,14 @@ class _StockPricChangerWidgetState extends State<StockPricChangerWidget> {
                   CustomTextField(
                     onChange: (value) {},
                     controller: limitMarketroller,
-                    onToggle: onQantToMarketChange,
-                    isDisabled: true,
-                    label: "Market",
-
+                    onToggle: onLimitToMarketToggle,
+                    isDisabled: !isLimitSelected,
+                    label: isLimitSelected ? "Limit" : "Market",
+                    isLimitSelected: isLimitSelected,
                     width: MediaQuery.of(context).size.width,
+                    toggleDisabled: false,
                   ),
                   SizedBox(height: 10),
-                  // Row(
-                  //   children:
-                  // [_stockExchangeRadio(), _stockExchangeRadio()]),
                 ],
               ),
             ),

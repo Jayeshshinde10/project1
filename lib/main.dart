@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Zoroddh kite Theme',
+      title: 'Zoroddh kite',
       theme: kiteLikeTheme,
       home: BuyScreen(),
     );

@@ -8,10 +8,13 @@ class CustomTextField extends StatefulWidget {
     required this.width,
     required this.controller,
     required this.label,
-    required this.isDisabled,
+    this.isDisabled = false,
     this.isQuantity = false,
     required this.onToggle,
     required this.onChange,
+    this.isLimitSelected = true,
+    this.toggleDisabled = false,
+    this.editIcon,
   });
   final double height;
   final double width;
@@ -22,6 +25,9 @@ class CustomTextField extends StatefulWidget {
   final Function() onToggle;
   final Function(String value) onChange;
   final TextEditingController controller;
+  final bool isLimitSelected;
+  final bool toggleDisabled;
+  final Widget? editIcon;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -48,6 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              if (widget.editIcon != null) widget.editIcon!,
               if (widget.isQuantity)
                 Text(
                   " ${widget.quantity} QTY.",
@@ -61,6 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               controller: widget.controller,
               onChanged: widget.onChange,
               keyboardType: TextInputType.number,
+              enabled: widget.isDisabled,
 
               onTapOutside: (event) {},
               decoration: InputDecoration(
@@ -95,8 +103,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     ),
                   ),
                   child: IconButton(
-                    onPressed: widget.onToggle,
-                    icon: Icon(Icons.swap_horiz, color: Colors.blue),
+                    disabledColor: Colors.grey.shade400,
+
+                    onPressed: widget.toggleDisabled ? null : widget.onToggle,
+                    icon: Icon(
+                      Icons.swap_horiz,
+                      color: widget.toggleDisabled
+                          ? Colors.grey.shade400
+                          : Colors.blue,
+                    ),
                   ),
                 ),
                 // Remove default border if you want only custom borders
